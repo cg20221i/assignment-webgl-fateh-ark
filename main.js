@@ -2,7 +2,9 @@ function main() {
     var canvas = document.getElementById("myCanvas");
     var gl = canvas.getContext("webgl");
 
+    // Vertices Positions
     var vertices = [
+        // Number 1
         -0.605, 0.756, 
         -0.68, 0.82, 
         -0.355, 0.88, 
@@ -15,6 +17,7 @@ function main() {
         -0.49, 0.582, 
         -0.395, 0.796,
 
+        // Number 7
         0.155, 0.316, 
         0.105, 0.384, 
         0.24, 0.322, 
@@ -57,6 +60,7 @@ function main() {
         0.36, 0.052, 
         0.53, 0.034,
 
+        // Letter A
         -0.35, -0.008, 
         -0.12, -0.028, 
         -0.235, -0.078, 
@@ -106,6 +110,7 @@ function main() {
         -0.22, -0.41, 
         -0.035, -0.428,
 
+        // Letter R
         0.01, -0.532, 
         0.36, -0.504, 
         0.605, -0.522, 
@@ -154,15 +159,18 @@ function main() {
     gl.linkProgram(shaderProgram);
     gl.useProgram(shaderProgram);
 
+    // Backround Color
     gl.clearColor(0.2, 0.1,   0.0,  1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    // Vertices Attrib Positions Preps
     var aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aPosition);
 
-    gl.drawArrays(gl.LINE_LOOP, 0, 11);
-    gl.drawArrays(gl.LINE_STRIP,11,41);
-    gl.drawArrays(gl.TRIANGLES,52,48);
-    gl.drawArrays(gl.TRIANGLE_FAN,100,13);
+    //Renders
+    gl.drawArrays(gl.LINE_LOOP, 0, 11); // Number 1
+    gl.drawArrays(gl.LINE_STRIP,11,41); // Number 7
+    gl.drawArrays(gl.TRIANGLES,52,48); // Letter A
+    gl.drawArrays(gl.TRIANGLE_FAN,100,13); // Letter R
 }
