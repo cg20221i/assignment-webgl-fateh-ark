@@ -3,16 +3,17 @@ function main() {
     var gl = canvas.getContext("webgl");
 
     var vertices = [
-        -0.1,0.1,
-        -0.3,0.3,
-        -0.5,0.5,
-        -0.7,0.7,
-        -0.9,0.9,
-        0.1, 0.1,
-        0.3,-0.3,
-        0.5,-0.5,
-        0.7,-0.7,
-        0.9,0.9
+        -0.605, 0.756, 
+        -0.68, 0.82, 
+        -0.355, 0.88, 
+        -0.18, 0.868, 
+        -0.305, 0.572, 
+        -0.13, 0.56, 
+        -0.16, 0.488, 
+        -0.7, 0.528, 
+        -0.67, 0.594, 
+        -0.49, 0.582, 
+        -0.395, 0.796        
     ];
 
     var buffer = gl.createBuffer();
@@ -54,5 +55,5 @@ function main() {
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aPosition);
 
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, 10);
+    gl.drawArrays(gl.LINE_LOOP, 0, 11);
 }
