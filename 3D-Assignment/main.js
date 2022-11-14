@@ -129,7 +129,7 @@ function main() {
     gl.useProgram(shaderProgram);
 
     // Local variables
-    var isAnimated = false;
+    var isAnimated = true;
     var theta = 0.0;
     var direction = "";
     var dX = 0.0;
@@ -137,25 +137,31 @@ function main() {
     // For the model (all linear transformation)
     var uModel = gl.getUniformLocation(shaderProgram, "uModel");
     // For the camera
-    var camera = [0.0, 0.0, 5.0];
+    var camera = [0.0, 0.0, 7.5];
     var uView = gl.getUniformLocation(shaderProgram, "uView");
     var view = glMatrix.mat4.create();  // Create an identity matrix
     glMatrix.mat4.lookAt(
         view,
         camera,
-        [camera[0], 0.0, -10.0],
+        [0.0, 0.0, 0.0],
         [0.0, 1.0, 0.0]
     );
     gl.uniformMatrix4fv(uView, false, view);
     // For the projection
+
+    var cameraFOV = 75;
+    var cameraAspect = 1.0;
+    var cameraNearClip = 0.5;
+    var cameraFarClip = 50.0;
+
     var uProjection = gl.getUniformLocation(shaderProgram, "uProjection");
     var perspective = glMatrix.mat4.create();
     glMatrix.mat4.perspective(
         perspective,
-        Math.PI/3,  // 60 degrees
-        1.0,
-        0.5, 
-        10.0
+        cameraFOV*(Math.PI/180),  // 60 degrees
+        cameraAspect,
+        cameraNearClip, 
+        cameraFarClip
     );
     gl.uniformMatrix4fv(uProjection, false, perspective);
 
@@ -327,7 +333,7 @@ function main() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         var model = glMatrix.mat4.create();
         if (isAnimated) {
-            theta += 0.01;
+            theta += 0.001;
         }
         switch (direction) {
             case "up":
