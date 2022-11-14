@@ -8,5 +8,5 @@ Chosen Letters:
 |-|-|
 |17|AR|
 
-## Preview
-![HTML Preview](Preview.png "HTML Preview")
+## 2D Preview
+![HTML Preview](/2D-Assignment/2dPreview.png "HTML Preview")
