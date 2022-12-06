@@ -724,35 +724,35 @@ function main() {
         0.185, -0.916, 4,      0, 0.8, 0,    0, 0, 1,
 
         //Cube
-        -2, -2, -2,     1, 1, 1,    0, 0, -1,       
-         2, -2, -2,     1, 1, 1,    0, 0, -1,   
-         2,  2, -2,     1, 1, 1,    0, 0, -1,   
-        -2,  2, -2,     1, 1, 1,    0, 0, -1,   
+        -0.5, -0.5, -0.5,     1, 1, 1,    0, 0, -1,       
+         0.5, -0.5, -0.5,     1, 1, 1,    0, 0, -1,   
+         0.5,  0.5, -0.5,     1, 1, 1,    0, 0, -1,   
+        -0.5,  0.5, -0.5,     1, 1, 1,    0, 0, -1,   
              
-        -2, -2,  2,     1, 1, 1,    0, 0, 1,    
-         2, -2,  2,     1, 1, 1,    0, 0, 1,    
-         2,  2,  2,     1, 1, 1,    0, 0, 1,    
-        -2,  2,  2,     1, 1, 1,    0, 0, 1,    
+        -0.5, -0.5,  0.5,     1, 1, 1,    0, 0, 1,    
+         0.5, -0.5,  0.5,     1, 1, 1,    0, 0, 1,    
+         0.5,  0.5,  0.5,     1, 1, 1,    0, 0, 1,    
+        -0.5,  0.5,  0.5,     1, 1, 1,    0, 0, 1,    
 
-        -2, -2, -2,     1, 1, 1,    -1, 0, 0,   
-        -2,  2, -2,     1, 1, 1,    -1, 0, 0,   
-        -2,  2,  2,     1, 1, 1,    -1, 0, 0,   
-        -2, -2,  2,     1, 1, 1,    -1, 0, 0,   
+        -0.5, -0.5, -0.5,     1, 1, 1,    -1, 0, 0,   
+        -0.5,  0.5, -0.5,     1, 1, 1,    -1, 0, 0,   
+        -0.5,  0.5,  0.5,     1, 1, 1,    -1, 0, 0,   
+        -0.5, -0.5,  0.5,     1, 1, 1,    -1, 0, 0,   
                
-         2, -2, -2,     1, 1, 1,    1, 0, 0,    
-         2,  2, -2,     1, 1, 1,    1, 0, 0,    
-         2,  2,  2,     1, 1, 1,    1, 0, 0,    
-         2, -2,  2,     1, 1, 1,    1, 0, 0,    
+         0.5, -0.5, -0.5,     1, 1, 1,    1, 0, 0,    
+         0.5,  0.5, -0.5,     1, 1, 1,    1, 0, 0,    
+         0.5,  0.5,  0.5,     1, 1, 1,    1, 0, 0,    
+         0.5, -0.5,  0.5,     1, 1, 1,    1, 0, 0,    
              
-        -2, -2, -2,     1, 1, 1,    0, -1, 0,   
-        -2, -2,  2,     1, 1, 1,    0, -1, 0,   
-         2, -2,  2,     1, 1, 1,    0, -1, 0,   
-         2, -2, -2,     1, 1, 1,    0, -1, 0,   
+        -0.5, -0.5, -0.5,     1, 1, 1,    0, -1, 0,   
+        -0.5, -0.5,  0.5,     1, 1, 1,    0, -1, 0,   
+         0.5, -0.5,  0.5,     1, 1, 1,    0, -1, 0,   
+         0.5, -0.5, -0.5,     1, 1, 1,    0, -1, 0,   
               
-        -2,  2, -2,     1, 1, 1,    0, 1, 0,    
-        -2,  2,  2,     1, 1, 1,    0, 1, 0,    
-         2,  2,  2,     1, 1, 1,    0, 1, 0,    
-         2,  2, -2,     1, 1, 1,    0, 1, 0     
+        -0.5,  0.5, -0.5,     1, 1, 1,    0, 1, 0,    
+        -0.5,  0.5,  0.5,     1, 1, 1,    0, 1, 0,    
+         0.5,  0.5,  0.5,     1, 1, 1,    0, 1, 0,    
+         0.5,  0.5, -0.5,     1, 1, 1,    0, 1, 0     
     ];
 
     var indices = [
@@ -1029,9 +1029,6 @@ function main() {
     gl.useProgram(shaderProgram);
 
     // Local variables
-    var isAnimated = false;
-    var theta = 0.0;
-    var direction = "";
     var dX = 0.0;
     var dY = 0.0;
     // For the model (all linear transformation)
@@ -1077,7 +1074,39 @@ function main() {
     var uNormalModel = gl.getUniformLocation(shaderProgram, "uNormalModel");
         // Specular
     var uViewerPosition = gl.getUniformLocation(shaderProgram, "uViewerPosition");
+    gl.uniform3fv(uViewerPosition,camera);
 
+    function onKeyDown (event){
+        switch(event.keyCode){
+            case 74:
+                camera[0] -= 0.05;
+                gl.uniform3fv(uViewerPosition, camera);
+                glMatrix.mat4.lookAt(
+                    view,
+                    camera,
+                    [camera[0], 0.0, -10.0],
+                    [0.0, 1.0, 0.0]
+                );
+                gl.uniformMatrix4fv(uView, false, view);
+                break;
+                case 76:
+                    camera[0] += 0.05;
+                    gl.uniform3fv(uViewerPosition, camera);
+                    glMatrix.mat4.lookAt(
+                        view,
+                        camera,
+                        [camera[0], 0.0, -10.0],
+                        [0.0, 1.0, 0.0]
+                    );
+                    gl.uniformMatrix4fv(uView, false, view);
+                    break;
+                default:
+                    break;
+        }
+    }
+
+    document.addEventListener("keydown",onKeyDown);
+    //document.addEventListener("keyup", onKeyUp);
 
     // Teach the GPU how to collect
     //  the positional values from ARRAY_BUFFER
