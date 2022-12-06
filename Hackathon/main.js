@@ -722,6 +722,37 @@ function main() {
         0.01, -0.532, 5,      0, 0.8, 0,    0, 0, 1,
         0.01, -0.532, 4,      0, 0.8, 0,    0, 0, 1,
         0.185, -0.916, 4,      0, 0.8, 0,    0, 0, 1,
+
+        //Cube
+        -2, -2, -2,     1, 1, 1,    0, 0, -1,       
+         2, -2, -2,     1, 1, 1,    0, 0, -1,   
+         2,  2, -2,     1, 1, 1,    0, 0, -1,   
+        -2,  2, -2,     1, 1, 1,    0, 0, -1,   
+             
+        -2, -2,  2,     1, 1, 1,    0, 0, 1,    
+         2, -2,  2,     1, 1, 1,    0, 0, 1,    
+         2,  2,  2,     1, 1, 1,    0, 0, 1,    
+        -2,  2,  2,     1, 1, 1,    0, 0, 1,    
+
+        -2, -2, -2,     1, 1, 1,    -1, 0, 0,   
+        -2,  2, -2,     1, 1, 1,    -1, 0, 0,   
+        -2,  2,  2,     1, 1, 1,    -1, 0, 0,   
+        -2, -2,  2,     1, 1, 1,    -1, 0, 0,   
+               
+         2, -2, -2,     1, 1, 1,    1, 0, 0,    
+         2,  2, -2,     1, 1, 1,    1, 0, 0,    
+         2,  2,  2,     1, 1, 1,    1, 0, 0,    
+         2, -2,  2,     1, 1, 1,    1, 0, 0,    
+             
+        -2, -2, -2,     1, 1, 1,    0, -1, 0,   
+        -2, -2,  2,     1, 1, 1,    0, -1, 0,   
+         2, -2,  2,     1, 1, 1,    0, -1, 0,   
+         2, -2, -2,     1, 1, 1,    0, -1, 0,   
+              
+        -2,  2, -2,     1, 1, 1,    0, 1, 0,    
+        -2,  2,  2,     1, 1, 1,    0, 1, 0,    
+         2,  2,  2,     1, 1, 1,    0, 1, 0,    
+         2,  2, -2,     1, 1, 1,    0, 1, 0     
     ];
 
     var indices = [
@@ -900,7 +931,15 @@ function main() {
         550, 551, 552,      550, 552, 553,
         554, 555, 556,      554, 556, 557,
         558, 559, 560,      558, 560, 561,
-        562, 563, 564,      562, 564, 565
+        562, 563, 564,      562, 564, 565,
+
+        // Cube
+        566, 567, 568,      566, 568, 569,     
+        570, 571, 572,      570, 572, 573,     
+        574, 575, 576,      574, 576, 577,   
+        578, 579, 580,      578, 580, 581, 
+        582, 583, 584,      582, 584, 585,  
+        586, 587, 588,      586, 588, 589,   
     ];
 
     console.log(indices.length);
@@ -1039,123 +1078,6 @@ function main() {
         // Specular
     var uViewerPosition = gl.getUniformLocation(shaderProgram, "uViewerPosition");
 
-    // Local functions
-        // MOUSE
-    var dragging, prevx, prevy, rotation = glMatrix.mat4.create();
-    function onMouseDown (event) {
-        var x = event.clientX;
-        var y = event.clientY;
-        var rect = event.target.getBoundingClientRect();
-        if (
-            rect.left <= x &&
-            rect.right >= x &&
-            rect.top <= y &&
-            rect.bottom >= y
-        ) {
-            dragging = true;
-            prevx = x;
-            prevy = y;
-        }
-    }
-    function onMouseUp (event) {
-        dragging = false;
-    }
-    function onMouseMove (event) {
-        if (dragging) {
-            var x = event.clientX;
-            var y = event.clientY;
-            var xdiff = x - prevx;
-            var ydiff = y - prevy;
-            var inverseRotation = glMatrix.mat4.create();
-            glMatrix.mat4.invert(inverseRotation, rotation);
-            var xAxis = [1, 0, 0, 0];
-            var yAxis = [0, 1, 0, 0];
-            glMatrix.vec4.transformMat4(xAxis, xAxis, inverseRotation);
-            glMatrix.vec4.transformMat4(yAxis, yAxis, inverseRotation);
-            glMatrix.mat4.rotate(rotation, rotation, glMatrix.glMatrix.toRadian(xdiff), yAxis);
-            glMatrix.mat4.rotate(rotation, rotation, glMatrix.glMatrix.toRadian(ydiff), xAxis);
-            prevx = x;
-            prevy = y;
-        }
-    }
-    document.addEventListener("mousedown", onMouseDown);
-    document.addEventListener("mouseup", onMouseUp);
-    document.addEventListener("mousemove", onMouseMove);
-        // KEYBOARD
-    function onKeyDown (event) {
-        switch (event.keyCode) {
-            case 87: // Object UP
-                direction = "up";
-                break;
-            case 83: // Object DOWN
-                direction = "down";
-                break;
-            case 68: // Object RIGHT
-                direction = "right";
-                break;
-            case 65: // Object LEFT
-                direction = "left";
-                break;
-            case 38: // Camera UP
-                camera[1] += 0.05;
-                gl.uniform3fv(uViewerPosition, camera);
-                glMatrix.mat4.lookAt(
-                    view,
-                    camera,
-                    [camera[0], 0.0, -10.0],
-                    [0.0, 1.0, 0.0]
-                );
-                gl.uniformMatrix4fv(uView, false, view);
-                break;
-            case 40: // Camera DOWN
-                camera[1] -= 0.05;
-                gl.uniform3fv(uViewerPosition, camera);
-                glMatrix.mat4.lookAt(
-                    view,
-                    camera,
-                    [camera[0], 0.0, -10.0],
-                    [0.0, 1.0, 0.0]
-                );
-                gl.uniformMatrix4fv(uView, false, view);
-                break;
-            case 39: // Camera RIGHT
-                camera[0] += 0.05;
-                gl.uniform3fv(uViewerPosition, camera);
-                glMatrix.mat4.lookAt(
-                    view,
-                    camera,
-                    [camera[0], 0.0, -10.0],
-                    [0.0, 1.0, 0.0]
-                );
-                gl.uniformMatrix4fv(uView, false, view);
-                break;
-            case 37: // Camera LEFT
-                camera[0] -= 0.05;
-                gl.uniform3fv(uViewerPosition, camera);
-                glMatrix.mat4.lookAt(
-                    view,
-                    camera,
-                    [camera[0], 0.0, -10.0],
-                    [0.0, 1.0, 0.0]
-                );
-                gl.uniformMatrix4fv(uView, false, view);
-                break;
-            default:
-                break;
-        }
-    }
-    function onKeyUp (event) {
-        direction = "";
-    }
-    function onKeyPress (event) {
-        console.log('keypress');
-        if (event.keyCode == 32) {  // Space button
-            isAnimated = !isAnimated;
-        }
-    }
-    document.addEventListener("keypress", onKeyPress)
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("keyup", onKeyUp);
 
     // Teach the GPU how to collect
     //  the positional values from ARRAY_BUFFER
@@ -1193,30 +1115,8 @@ function main() {
         gl.clearColor(0.0, 0.0,   0.0,  1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         var model = glMatrix.mat4.create();
-        if (isAnimated) {
-            theta += 0.001;
-        }
-        switch (direction) {
-            case "up":
-                dY += 0.1;
-                break;
-            case "down":
-                dY -= 0.1;
-                break;
-            case "left":
-                dX -= 0.1;
-                break;
-            case "right":
-                dX += 0.1;
-                break;
-        
-            default:
-                break;
-        }
+
         glMatrix.mat4.translate(model, model, [dX, dY, 0.0]);
-        glMatrix.mat4.rotateZ(rotation, rotation, theta);
-        glMatrix.mat4.rotateY(rotation, rotation, theta);
-        glMatrix.mat4.multiply(model, model, rotation);
         gl.uniformMatrix4fv(uModel, false, model);
 
         // For transforming the normal vector
