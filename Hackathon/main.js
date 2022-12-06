@@ -1070,11 +1070,13 @@ function main() {
     gl.uniform1f(uAmbientIntensity, 0.417);             // 41.7% intensity = 117 + 300
         // Diffuse
     var uLightPosition = gl.getUniformLocation(shaderProgram, "uLightPosition");
-    gl.uniform3fv(uLightPosition, [0.0, 0.0, 0.0]);
+    gl.uniform3fv(uLightPosition, [0.0, 0.0, 2.1]);
     var uNormalModel = gl.getUniformLocation(shaderProgram, "uNormalModel");
         // Specular
     var uViewerPosition = gl.getUniformLocation(shaderProgram, "uViewerPosition");
     gl.uniform3fv(uViewerPosition,camera);
+
+    var lightPosition = 2.1;
 
     function onKeyDown (event){
         switch(event.keyCode){
@@ -1100,13 +1102,21 @@ function main() {
                     );
                     gl.uniformMatrix4fv(uView, false, view);
                     break;
+                case 73:
+                    lightPosition += 0.05;
+                    gl.uniform3fv(uLightPosition, [0.0, 0.0, lightPosition]);
+                    break;
+                case 75:
+                    lightPosition -= 0.05;
+                    gl.uniform3fv(uLightPosition, [0.0, 0.0, lightPosition]);
+                    break;
                 default:
                     break;
         }
     }
 
     document.addEventListener("keydown",onKeyDown);
-    //document.addEventListener("keyup", onKeyUp);
+  
 
     // Teach the GPU how to collect
     //  the positional values from ARRAY_BUFFER
