@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+canvas {
+    position: absolute;
+    left: calc(50% - 800px/2);
+    top: calc(50% - 800px/2);
+}
+
+body {
+    
+}
+
+strong {
+    font-weight: 700;
+}
+
+#NRP {
+    position: absolute;
+    left: calc(50% - 547px/2 + 502.5px);
+    top: calc(50% - 116px/2 - 231px);
+
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 96px;
+    line-height: 116px;
+
+    color: #331900;
+}
+
+#Name {
+    position: absolute;
+
+    left: calc(50% - 524px/2 - 490px);
+    top: calc(50% - 116px/2 + 232px);
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 96px;
+    line-height: 116px;
+    text-align: right;
+
+    color: #331900;
+}
